@@ -152,7 +152,7 @@ async function displayGrid(){
     
                     ctx.fillStyle = textCol
                     placeText(num, i, j)
-                    await sleep(10)
+                    await sleep(15)
                     if (i === 8) start = false;
                 }
             } 
