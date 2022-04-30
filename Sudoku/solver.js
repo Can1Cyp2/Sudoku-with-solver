@@ -22,6 +22,5 @@ function updateSolved(){
     // Solving the grid
     grid = solvedGrid
     resetScreen()
-    displayGrid()
-
+    updateDisplay()
 }

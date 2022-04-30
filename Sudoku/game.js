@@ -1,7 +1,8 @@
 // game buttons
+
 let easy = document.createElement("button")
 easy.textContent= "Easy"
-easy.onclick = startEasy()
+easy.onclick = startEasy
 
 // let medium = document.createElement("button")
 // medium.textContent = "Medium"
@@ -17,23 +18,23 @@ function makeLevels(){
     // document.body.appendChild(medium)
     // document.body.appendChild(hard)
     console.log("Making Levels")
+    solvedGrid = grid
+    console.log(solvedGrid,grid)
 }
 
 function startEasy(){
     // Spaces to put numbers
-    solvedGrid = grid
-
     let filledSpaces = 25
-    start = true
-  
+    start = true    // Tests if the game just started
+    console.log("start")
     startGame(filledSpaces)
 }
 
 function startGame(fill){
-    do{
+    do {
         generateGrid(fill)
         solveGrid()
-    }while (!solveGrid())
+    } while (!solveGrid())
     console.log("easy")
 
     resetScreen()

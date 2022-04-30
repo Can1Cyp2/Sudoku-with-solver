@@ -32,7 +32,7 @@ let grid = []      // Grid
 let solvedGrid = []  // The solved grid
 
 function makeGrid(){
-    // Making grid
+    // Making basic grid
     for (let i = 0; i < 9; i++){
         grid.push([])
         for (let j = 0; j < 9; j++){
@@ -41,7 +41,6 @@ function makeGrid(){
     }
 
     console.table(grid)
-    solvedGrid = grid
     textCol = 'black'
 }
 
@@ -52,7 +51,7 @@ function drawGrid() {
             ctx.strokeStyle = 'black'
             ctx.lineWidth = 2
         }
-        
+
         else{
             ctx.strokeStyle = 'grey'
             ctx.lineWidth = 1.3
