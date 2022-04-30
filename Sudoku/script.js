@@ -28,7 +28,8 @@ const h = height/9
 ctx.canvas.width = width
 ctx.canvas.height = height
 
-const grid = []      // Grid
+let grid = []      // Grid
+let solvedGrid = []  // The solved grid
 
 function makeGrid(){
     // Making grid
@@ -40,6 +41,7 @@ function makeGrid(){
     }
 
     console.table(grid)
+    solvedGrid = grid
     textCol = 'black'
 }
 
@@ -49,8 +51,8 @@ function drawGrid() {
         if (i % 3 === 0){
             ctx.strokeStyle = 'black'
             ctx.lineWidth = 2
-
         }
+        
         else{
             ctx.strokeStyle = 'grey'
             ctx.lineWidth = 1.3
@@ -152,7 +154,7 @@ async function displayGrid(){
                     ctx.fillStyle = textCol
                     placeText(num, i, j)
                     await sleep(10)
-                    start = false;
+                    if (i === 8) start = false;
                 }
             } 
             
