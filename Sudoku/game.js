@@ -19,14 +19,10 @@ function makeLevels(){
     // document.body.appendChild(hard)
     console.log("Making Levels")
 
-    // Making solved grid equal original grid to test solvability
-    for (let i = 0; i < 9; i++ ) {
-        solvedGrid.push([])
-        for (let j = 0; j < 9; j++) {
-            solvedGrid[i][j] = grid[i][j]
-        }
-    }
-    console.log(solvedGrid,grid)
+
+
+    console.log(solvedGrid, grid)
+    console.log(solvedGrid === grid)
 }
 
 function startEasy(){
@@ -40,10 +36,18 @@ function startEasy(){
 function startGame(fill){
 
     do {
+        makeGrid()
+        console.log("New grid:", solvedGrid, grid)
         generateGrid(fill)
-        solveGrid()
-    } while (!solveGrid())
-    console.log("easy")
+
+        // Making solved grid equal original grid to test solvability
+        // solvedGrid = grid.map(function(array){
+        //     return array.slice()
+        // })
+
+    } while (!solveGrid(solvedGrid))
+
+    console.log("easy: " + solvedGrid, grid)
 
     resetScreen()
     updateDisplay()

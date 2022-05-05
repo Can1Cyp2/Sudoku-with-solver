@@ -20,6 +20,7 @@ function generateGrid(size){
         if (grid[randRow][randCol] === 0){
             if (isValid(randNum, randRow, randCol)){
                 grid[randRow][randCol] = randNum
+                solvedGrid[randRow][randCol] = randNum
                 played.push(randRow + ", " + randCol)
                 count++
             }
@@ -28,4 +29,10 @@ function generateGrid(size){
       }
 
         console.log("num")
+        // for (let i = 0; i < 9; i++){
+        //     for (let j = 0; j < 9; j++){
+        //     }
+        // }
+        //solvedGrid = grid.slice(0)
+        console.log("generate: ", solvedGrid, grid)
 }

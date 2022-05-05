@@ -1,12 +1,12 @@
 //  checking if input is valid
 function isValid(num, x, y){
+
     return (
         !inRow(num, x) &&
         !inCol(num, y) &&
         !inBox(num, x, y)
     )
 }
-
 
 function inRow(num, x){
     for (let i = 0; i < 9; i++){

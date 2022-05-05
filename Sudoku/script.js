@@ -19,7 +19,7 @@ let textCol = 'darkBlue'
 let played = []    // locations where numbers were pre-placed - added to in generated
 
 
-/// ****************************** vvv GRID INFO vvv ***************************************
+/// ****************************** vvv BASIC GRID INFO vvv ***************************************
 
 // Sizes for grid
 const width = height = 450
@@ -32,11 +32,16 @@ let grid = []      // Grid
 let solvedGrid = []  // The solved grid
 
 function makeGrid(){
+    grid = []      // Grid
+    solvedGrid = [] // The solved grid
+    console.log()
     // Making basic grid
     for (let i = 0; i < 9; i++){
         grid.push([])
+        solvedGrid.push([])
         for (let j = 0; j < 9; j++){
             grid[i].push(0)
+            solvedGrid[i].push(0)
         }
     }
 
