@@ -16,7 +16,7 @@ let prevSelectedY = 0 // The previously selected y point on the board
 let selectedSpot = 'lightcyan'
 let textCol = 'darkBlue'
 
-let played = []    // locations where numbers were pre-placed - added to in generated
+let userSpots = [];   // locations where numbers were pre-placed - added to in generated
 
 
 /// ****************************** vvv BASIC GRID INFO vvv ***************************************
@@ -39,12 +39,13 @@ function makeGrid(){
     for (let i = 0; i < 9; i++){
         grid.push([])
         solvedGrid.push([])
+        userSpots.push([])
         for (let j = 0; j < 9; j++){
             grid[i].push(0)
             solvedGrid[i].push(0)
+            userSpots[i].push(false) // No user spots at the start
         }
     }
-
     console.table(grid)
     textCol = 'black'
 }
@@ -80,6 +81,8 @@ function drawGrid() {
 countClick = 0  // Counts the amount of times a spot has been clicked twice
 
 canvas.addEventListener('mousedown', (e) => {
+    if (start) return;
+
     textCol = 'darkBlue'
     const x = e.offsetX;
     const y = e.offsetY;
@@ -87,7 +90,7 @@ canvas.addEventListener('mousedown', (e) => {
     selectedX = Math.floor(x / w)
     selectedY = Math.floor(y / w)
 
-    resetScreen()
+    resetScreen();
     console.log(selectedX, selectedY, prevSelectedX, prevSelectedY)
     
     if (selected && ((selectedX === -1) || (selectedX === prevSelectedX && selectedY === prevSelectedY))){
@@ -114,7 +117,7 @@ canvas.addEventListener('mousedown', (e) => {
 
 
 document.addEventListener('keydown', (e) => {
-    console.log(played)
+    // console.log(played)
     const num = e.key;
     
     (available.includes(num) && selected) && placeNumber(num)
@@ -170,8 +173,7 @@ async function displayGrid(){
     }
 }
 
-async function displayStartGrid(amount){
-
+async function displayStartGrid(amount) {
     for (let i = 0; i < 9; i++){
         for (let j = 0; j < 9; j++){
             const num = grid[i][j]
@@ -201,7 +203,11 @@ async function displayStartGrid(amount){
 function placeText(num, i, j){
     console.log(selectedX, selectedY, i + ", " + j)
 
-    if (played.includes(i + ", " + j)){
+    // if (played.includes(i + ", " + j)){
+    //     textCol = 'black'
+    // }
+
+    if (!userSpots[i][j]) { 
         textCol = 'black'
     }
 

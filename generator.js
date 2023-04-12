@@ -1,62 +1,50 @@
 let start = true;
 
-function generateGrid(size){
+function generateGrid(size) {
+    const n = 9; // size of the grid
+  
+    // Creates the grid:
+    for (let i = 0; i < n; i += 3) fillBox(grid, i, i); // Fills the diagonal boxes
+    // Solve the rest of the Sudoku grid
+    solveGrid(solvedGrid);
+    copyGrid(grid, solvedGrid); // Deep copies the solvedGrid to grid
+  
+    // Remove some cells to create the puzzle
+    for (let i = 0; i < size; i++) {
+        const randRow = Math.floor(Math.random() * n);
+        const randCol = Math.floor(Math.random() * n);
+        grid[randRow][randCol] = 0;
+    }
 
-      for (let i = 0; i < 9; i++){
-          for (let j = 0; j < 9; j++){
-              grid[i][j] = 0
-          }
-      }
-
-      count = 0;
-      played = []
-      while (count < size){
-        
-        // Random numbers
-        randNum = getRandomInt() + 1
-        randRow = getRandomInt()
-        randCol = getRandomInt()
-
-        if (grid[randRow][randCol] === 0){
-            if (isValid(randNum, randRow, randCol)){
-                grid[randRow][randCol] = randNum
-                solvedGrid[randRow][randCol] = randNum
-                played.push(randRow + ", " + randCol)
-                count++
-            }
-            else continue;
+    // Add the spots the user has to fill to the userSpots array:
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (grid[i][j] === 0) userSpots[i][j] = true;
         }
-      }
+    }
 
-        console.log("num")
-        // for (let i = 0; i < 9; i++){
-        //     for (let j = 0; j < 9; j++){
-        //     }
-        // }
-        //solvedGrid = grid.slice(0)
-        console.log("generate: ", solvedGrid, grid)
+    return grid;
+}
+  
+function fillBox(grid, row, col) {
+    const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            const randIndex = Math.floor(Math.random() * nums.length);
+            grid[row+i][col+j] = nums[randIndex];
+            nums.splice(randIndex, 1);
+        }
+    }
 }
 
-function fillGrid(){
-    let solvable = false
-    makeGrid()
-        for (let x = 0; x < 9; x++){   // row
-            for (let y = 0; y < 9; y++){   // col
-    
-                // checking that the space is available
-                if (grid[x][y] === 0 ){
-                    let randNum = getRandomInt() + 1
-    
-                    for (let num = 1; num <= 9; num++){
-                        if (isValid(num, x, y)){
-                            grid[x][y] = num;
-                            console.log(grid[x][y])
-                        }
-                    }
-                }
-        
-            }
-        
-        }
 
+// Deep copies the solvedGrid to grid
+function copyGrid(grid, solvedGrid) {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            grid[i][j] = solvedGrid[i][j];
+        }
+    }
 }
+
+function printSudoku(sudoku) { for (const row of sudoku) console.log(row.join(' ')); } // prints the sudoku grid

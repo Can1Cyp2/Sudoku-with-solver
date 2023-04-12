@@ -12,19 +12,14 @@ easy.onclick = startEasy
 // hard.textContent = "Hard"
 // hard.onclick = startHard
 
-const startAmnt = 5; // The starting value of numbers to fill on the board
+
 
 function makeLevels(){
-
-    // make a solvable grid
-    makeGrid()
-    fillGrid()
     // while (!solveGrid(solvedGrid)){S
     //     makeGrid()
     //     fillGrid()
     //     console.log("New grid:", solvedGrid, grid)
     // }
-    displayStartGrid(startAmnt)
 
     document.body.appendChild(easy)
     // document.body.appendChild(medium)
@@ -36,26 +31,16 @@ function makeLevels(){
 }
 
 function startEasy(){
-    // Spaces to put numbers
-    let filledSpaces = 25
+    const startAmnt = 30; // The starting value of numbers to remove on the board, to solve
     start = true    // Tests if the game just started
     console.log("start")
+    startGame(startAmnt)
 }
 
-async function startGame(){
-    // do {
-    //     await makeGrid()
-    //     console.log("New grid:", solvedGrid, grid)
-    //     await generateGrid(fill)
-
-    //     // Making solved grid equal original grid to test solvability
-    //     // solvedGrid = grid.map(function(array){
-    //     //     return array.slice()
-    //     // })
-
-    // }while (!solveGrid(solvedGrid))
+async function startGame(startAmnt){
     makeGrid()
     console.log("empty:", solvedGrid)
+    
     generateGrid(startAmnt)
     console.log("easy:", solvedGrid, grid)
 
