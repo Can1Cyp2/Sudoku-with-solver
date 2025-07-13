@@ -1,24 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enhanced Sudoku Game</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    <link rel="stylesheet" href="style.css">
-</head>
-<body id="body">
-    <canvas id="canvas"></canvas>
-    <script src="checker.js"></script>
-    <script src="generator.js"></script>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        max-width: 600px;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .game-controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+        border: 2px solid #667eea;
+      }
+
+      .btn-secondary:hover {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-success {
+        background: #28a745;
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: #218838;
+      }
+
+      .canvas-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      #canvas {
+        border: 3px solid #333;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        background: white;
+      }
+
+      .status-panel {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .status-message {
+        font-size: 1.2em;
+        font-weight: bold;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+
+      .warning {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+
+      .game-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: rgba(102, 126, 234, 0.1);
+        border-radius: 10px;
+      }
+
+      .timer {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #667eea;
+      }
+
+      .difficulty {
+        font-size: 1.1em;
+        color: #764ba2;
+        font-weight: 600;
+      }
+
+      .instructions {
+        background: rgba(118, 75, 162, 0.1);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        font-size: 0.9em;
+        color: #764ba2;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+
+        .game-controls {
+          gap: 10px;
+        }
+
+        .btn {
+          padding: 10px 18px;
+          font-size: 14px;
+        }
+
+        #canvas {
+          width: 350px;
+          height: 350px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Enhanced Sudoku</h1>
+
+      <div class="game-info">
+        <div class="timer">Time: <span id="timer">00:00</span></div>
+        <div class="difficulty">
+          Difficulty: <span id="difficulty">Easy</span>
+        </div>
+      </div>
+
+      <div class="instructions">
+        <strong>How to Play:</strong> Click on a cell to select it, then press
+        number keys (1-9) to place numbers. Click "Easy" to start a new game,
+        "Solve" to see the solution, or "Hint" for help.
+      </div>
+
+      <div class="game-controls">
+        <button class="btn btn-primary" id="easy-btn">Easy</button>
+        <button class="btn btn-secondary" id="medium-btn">Medium</button>
+        <button class="btn btn-secondary" id="hard-btn">Hard</button>
+        <button class="btn btn-success" id="solve-btn">Solve</button>
+        <button class="btn btn-secondary" id="hint-btn">Hint</button>
+      </div>
+
+      <div class="canvas-container">
+        <canvas id="canvas"></canvas>
+      </div>
+
+      <div class="status-panel">
+        <div
+          class="status-message"
+          id="status-message"
+          style="display: none"
+        ></div>
+      </div>
+    </div>
     <script src="solver.js"></script>
-    
     <script src="script.js"></script>
     <script src="game.js"></script>
-    <button onclick="makeLevels()"> Play </button>
-    <button onclick="solveGrid(grid)"> Solve </button>
-    <!-- <button onclick="fadeIn()"> test </button> -->
-    
-</body>
+  </body>
 </html>
